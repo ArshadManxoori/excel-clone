@@ -26,7 +26,7 @@ body{
 .selected-page-action{
     background-color: #f1f2f6;
     color: #218c74;
-    height: ;
+    /* height: ; */
 }
 .cellprop-actions-cont{
     height: 3rem;
@@ -100,7 +100,7 @@ body{
     width: 2vw;
 }
 .sheet-add-icon:hover{
-    cursor: default;
+    cursor: pointer;
 }
 .sheets-folder-cont{
     display: flex;
@@ -123,9 +123,8 @@ body{
 }
 .sheet-content{
     width: 5rem;
+    cursor: pointer;
 }
-
-
 
 
 .grid-cont{
@@ -150,7 +149,7 @@ body{
     display: flex;
     position: sticky;
     top: 0;
-    left: 2rem;
+    left: 2rem; 
 }
 .cells-cont{
     position: absolute; /* if we make it absolute then its parent should relative , then it will work properly */ 

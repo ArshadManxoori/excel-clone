@@ -45,6 +45,8 @@ function defaultSelectedSetUI(){
 }
 
 let copyData = [];
+let cut = false;
+
 copyBtn.addEventListener("click", (e) => {
     if(rangeStorage.length < 2) return;
     copyData = [];
@@ -53,7 +55,7 @@ copyBtn.addEventListener("click", (e) => {
     // let stcol = rangeStorage[0][1];
     // let endrow = rangeStorage[1][0];
     // let endcol = rangeStorage[1][1];
-    let [strow, stcol, endrow, endcol] =[ rangeStorage[0][0], rangeStorage[0][1], rangeStorage[1][0], rangeStorage[1][0] ];
+    let [strow, stcol, endrow, endcol] =[ rangeStorage[0][0], rangeStorage[0][1], rangeStorage[1][0], rangeStorage[1][1] ];
     
     for(let i = strow; i <= endrow; i++){
         let copyRow = [];
@@ -69,8 +71,9 @@ copyBtn.addEventListener("click", (e) => {
 
 cutBtn.addEventListener("click", (e) => {
     if(rangeStorage.length < 2) return;
+    copyData = [];
 
-    let [strow, stcol, endrow, endcol] =[ rangeStorage[0][0], rangeStorage[0][1], rangeStorage[1][0], rangeStorage[1][0] ];
+    let [strow, stcol, endrow, endcol] =[ rangeStorage[0][0], rangeStorage[0][1], rangeStorage[1][0], rangeStorage[1][1] ];
     for(let i = strow; i <= endrow; i++){
         let copyRow = [];
         for(let j = stcol; j <= endcol; j++){
@@ -78,9 +81,8 @@ cutBtn.addEventListener("click", (e) => {
             
             //DB - make default
             let cellProp = sheetDB[i][j];
-            // let cellObj = cellProp;
-            // copyRow.push(cellObj); 
 
+            copyRow.push({...cellProp}); 
             cellProp.value = "";
             cellProp.bold = false;
             cellProp.italic = false;
@@ -90,13 +92,14 @@ cutBtn.addEventListener("click", (e) => {
             cellProp.fontColor = "#000000";
             cellProp.BGcolor = "#000000";
             cellProp.alignment = "left";
-
+            
             //UI change
             cell.click();
         }
-        // copyData.push(copyRow);
+        copyData.push(copyRow);
     }
     // console.log(copyData);
+    cut = true;
     defaultSelectedSetUI();
 })
 
@@ -113,6 +116,7 @@ pasteBtn.addEventListener("click", (e) => {
 
     // r -> refers copyData row
     // c -> refers copyData col
+    console.log(copyData);
     for(let i = stRow, r = 0; i <= stRow + rowDiff; i++, r++){
         for(let j = stCol, c = 0; j <= stCol + colDiff; j++, c++){
             let cell = document.querySelector(`.cell[rid="${i}"][cid="${j}"]`);
@@ -135,6 +139,10 @@ pasteBtn.addEventListener("click", (e) => {
             //chng in UI
             cell.click();
         }
+    }
+    if(cut){
+        copyData = [];
+        cut = false;
     }
     // console.log(copyData);
 })
